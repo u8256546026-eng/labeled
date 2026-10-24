@@ -1,0 +1,44 @@
+{
+  "name": "labeled-server",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "API labeled: Telegram Mini App магазина одежды (покупатель и режим администратора).",
+  "scripts": {
+    "dev": "tsx watch src/main.ts",
+    "start": "node dist/main.js",
+    "build": "tsc --noEmit && esbuild src/main.ts src/db/admin-cli.ts --bundle --platform=node --format=esm --target=node22 --packages=external --outdir=dist --entry-names=[name]",
+    "typecheck": "tsc --noEmit",
+    "test": "tsx --test test/*.test.ts",
+    "db:generate": "drizzle-kit generate",
+    "seed": "tsx src/db/seed-cli.ts"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "devDependencies": {
+    "@types/node": "^26.6.4",
+    "@types/pg": "^8.23.1",
+    "drizzle-kit": "^0.31.11",
+    "esbuild": "^0.28.2",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@fastify/cors": "^11.3.0",
+    "@fastify/multipart": "^10.1.2",
+    "@telegram-apps/init-data-node": "^2.0.10",
+    "drizzle-orm": "^0.45.3",
+    "fastify": "^5.12.5",
+    "nodemailer": "10.0.15",
+    "pg": "^8.23.1",
+    "sharp": "^0.34.5",
+    "zod": "^4.6.5"
+  },
+  "overrides": {
+    "@esbuild-kit/core-utils": {
+      "esbuild": "^0.25.0"
+    }
+  }
+}

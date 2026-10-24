@@ -1,0 +1,90 @@
+/* labeled — дизайн-токены (из Labeled Buyer v15 / Flow v12) */
+:root {
+  --lb-ink: #111111;
+  --lb-ink-deep: #0B0B0B;
+  --lb-black: #000000;
+  --lb-ink-2: #242424;
+  --lb-mute: #8A8A84;          /* только выключенное и декоративное: на белом 3.5:1 */
+  --lb-ink-3: #6B6B65;         /* второстепенный текст и подсказки в поле: ≥ 4.9:1 на белом и n-50 */
+  --lb-n-300: #BFBFB9;
+  --lb-n-200: #D8D8D2;
+  --lb-n-150: #E8E8E5;
+  --lb-n-100: #EDEDE9;
+  --lb-n-50: #F7F7F5;
+  --lb-white: #FFFFFF;
+  --lime: #C6FF00;
+  --lb-lime-deep: #C1E04C;
+  --lb-lime-soft: #EEFCD1;
+  --lb-lime-tint: #F5F8EC;
+  --lb-green: #2E9E52;
+  --lb-danger: #C2341D;
+  --lb-danger-on-dark: #FF8A73; /* знак ошибки на тёмной пилюле тоста */
+  --lb-danger-soft: #FBEDEA;
+  --lb-info: #0A5BC4;
+  --lb-warn: #D99A16;
+  --lb-warn-line: #F2D48A;
+  --lb-warn-soft: #FDEFC9;
+  --lb-warn-tint: #FDF6E3;
+  --lb-warn-ink: #7A4E00;
+  --lb-violet: #3B2F8C;
+  --lb-violet-soft: #E6E3F7;
+  --lb-info-soft: #E3EDFA;
+  --lb-glass-lime: linear-gradient(180deg, rgba(212,255,64,.97) 0%, rgba(198,255,0,.93) 58%, rgba(186,236,0,.96) 100%);
+  --lb-glass-white: linear-gradient(180deg, rgba(255,255,255,.78) 0%, rgba(255,255,255,.70) 55%, rgba(252,252,250,.75) 100%);
+  --lb-glass-white-2: linear-gradient(180deg, rgba(255,255,255,.68) 0%, rgba(255,255,255,.60) 55%, rgba(252,252,250,.66) 100%);
+  --lb-amber-a22: rgba(160,120,20,0.22);
+  --lb-black-a0: rgba(11,11,11,0);
+  --lb-black-a10: rgba(11,11,11,0.1);
+  --lb-black-a25: rgba(11,11,11,0.25);
+  --lb-black-a40: rgba(11,11,11,0.4);
+  --lb-black-a55: rgba(11,11,11,0.55);
+  --lb-danger-a16: rgba(194,52,29,0.16);
+  --lb-danger-a25: rgba(194,52,29,0.25);
+  --lb-danger-a50: rgba(194,52,29,0.5);
+  --lb-ink-a06: rgba(17,17,17,0.06);
+  --lb-ink-a08: rgba(17,17,17,0.08);
+  --lb-ink-a10: rgba(17,17,17,0.1);
+  --lb-ink-a14: rgba(17,17,17,0.14);
+  --lb-ink-a18: rgba(17,17,17,0.18);
+  --lb-ink-a28: rgba(17,17,17,0.28);
+  --lb-ink-a40: rgba(17,17,17,0.4);
+  --lb-ink-a55: rgba(17,17,17,0.55);
+  --lb-ink-a65: rgba(17,17,17,0.65);
+  --lb-lime-a10: rgba(198,255,0,0.1);
+  --lb-lime-a35: rgba(198,255,0,0.35);
+  --lb-limedeep-a20: rgba(193,224,76,0.2);
+  --lb-limedeep-a40: rgba(193,224,76,0.4);
+  --lb-olive-a25: rgba(120,150,30,0.25);
+  --lb-white-a14: rgba(255,255,255,0.14);
+  --lb-white-a25: rgba(255,255,255,0.25);
+  --lb-white-a45: rgba(255,255,255,0.45);
+  --lb-white-a60: rgba(255,255,255,0.6);
+  --lb-white-a72: rgba(255,255,255,0.72);
+  --lb-white-a80: rgba(255,255,255,0.8);
+  --lb-white-a92: rgba(255,255,255,0.92);
+  --bg: var(--lb-n-50); --ink: var(--lb-ink); --line: var(--lb-ink-a10);
+}
+
+/* Шрифт: Manrope 400–800 (Google Fonts). Интерфейс и заголовки — один шрифт. */
+:root {
+  --font: 'Manrope', system-ui, sans-serif;
+
+  /* Адаптив: ширина < 390 → узкие значения, ≥ 390 → широкие */
+  --px: 14px;            /* боковой отступ экрана; ≥390: 16px */
+  --col-gap: 10px;       /* ≥390: 11px */
+  --f-h1: 22px;          /* ≥390: 24px */
+  --f-ban-title: 21px;   /* ≥390: 22px */
+  --f-price: 13.5px;     /* ≥390: 15px */
+  --f-name: 12.5px;      /* ≥390: 13.5px */
+  --f-small: 11px;       /* ≥390: 11.5px */
+  --f-tag: 10.5px;       /* ≥390: 11px */
+  --f-cta: 14px;
+
+  --r-card: 14px;
+  --r-banner: 20px;
+  --r-sheet: 24px;
+  --r-pill: 999px;
+}
+@media (min-width: 390px) {
+  :root { --px: 16px; --col-gap: 11px; --f-h1: 24px; --f-ban-title: 22px; --f-price: 15px; --f-name: 13.5px; --f-small: 11.5px; --f-tag: 11px; }
+}

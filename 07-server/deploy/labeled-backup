@@ -1,0 +1,7 @@
+#!/bin/sh
+# Ежедневная копия базы и загрузок labeled; хранятся 14 дней.
+set -e
+D=/var/backups/labeled; T=$(date +%F)
+sudo -u postgres pg_dump -Fc labeled > $D/db-$T.dump
+tar -czf $D/uploads-$T.tar.gz -C /var/lib/labeled uploads
+find $D -type f -mtime +14 -delete

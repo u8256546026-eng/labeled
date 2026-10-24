@@ -1,0 +1,161 @@
+/* Каркас labeled: адаптивные переменные макета, safe area Telegram, базовые компоненты.
+   Цвета — только из tokens.css. Значения перенесены из tok() в Flow v12 / Buyer v15. */
+
+:root {
+  --fd: var(--font);
+  --fb: var(--font);
+  --ink2: var(--lb-ink-2);
+  --ink3: var(--lb-ink);
+  --neu: var(--lb-n-150);
+  --dark: var(--lb-ink-2);
+  --lime-soft: var(--lb-lime-soft);
+  --nav-bg: var(--lb-glass-white);
+
+  --f-sec: 19px;
+  --f-big: 21px;
+  --f-body: 12.5px;
+  --tile: 62px;
+  --card-r: 14px;
+  --ban-h: 198px;
+  --ban-r: 20px;
+  --ban-pad: 15px;
+  --ban1-textw: 176px;
+  --ban23-textw: 204px;
+  --f-cond: 11px;
+  --p-size: auto 72%;
+  --v-size: 98px;
+
+  --ease-out: cubic-bezier(.23, 1, .32, 1);
+  --ease-sheet: cubic-bezier(.32, .72, 0, 1);
+
+  /* Telegram передаёт отступы через bindCssVars(); вне Telegram — env() браузера. */
+  --safe-top: calc(var(--tg-viewport-safe-area-inset-top, env(safe-area-inset-top, 0px)) + var(--tg-viewport-content-safe-area-inset-top, 0px));
+  --safe-bottom: calc(var(--tg-viewport-safe-area-inset-bottom, env(safe-area-inset-bottom, 0px)) + var(--tg-viewport-content-safe-area-inset-bottom, 0px));
+  --app-h: var(--tg-viewport-stable-height, 100dvh);
+}
+@media (min-width: 390px) {
+  :root {
+    --f-sec: 21px; --f-big: 23px; --f-body: 13px; --tile: 66px;
+    --ban-h: 205px; --ban-pad: 15px 16px; --ban1-textw: 200px; --ban23-textw: 226px;
+    --f-cond: 11.5px; --p-size: auto 74%; --v-size: 104px;
+  }
+}
+
+/* Самые узкие телефоны (320–359): коробка на баннере меньше, текст уже — строка условий не заходит под картинку. */
+@media (max-width: 359px) {
+  :root { --ban1-textw: 162px; --p-size: auto 60%; }
+}
+
+@keyframes lbFade { from { opacity: 0 } to { opacity: 1 } }
+@keyframes lbSheetUp { from { transform: translateY(100%) } to { transform: none } }
+@keyframes lbToastIn { from { opacity: 0; transform: translateY(8px) scale(.98) } to { opacity: 1; transform: none } }
+@keyframes lbChipIn { from { opacity: 0; transform: scale(.9) } to { opacity: 1; transform: none } }
+@keyframes lbPulse { 0%, 100% { opacity: 1 } 50% { opacity: .55 } }
+
+@media (prefers-reduced-motion: reduce) {
+  [data-anim] { animation: none !important; transition: none !important; }
+}
+
+* { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+html, body { margin: 0; height: 100%; }
+body {
+  background: var(--lb-n-150);
+  color: var(--lb-ink);
+  font-family: var(--font);
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+#root { height: 100%; }
+button, input, textarea { font-family: inherit; }
+input::placeholder, textarea::placeholder { color: var(--lb-ink-3); opacity: 1; }
+button { color: inherit; }
+[data-hs]::-webkit-scrollbar { width: 0; height: 0; }
+[data-hs] { scrollbar-width: none; }
+:focus-visible { outline: 2px solid var(--lb-ink); outline-offset: 2px; }
+/* Текст только для экранного диктора. */
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+/* Экран получает фокус после перехода (для диктора) — рамку не рисуем, это не элемент управления. */
+[data-scroll]:focus, h1[tabindex='-1']:focus { outline: none; }
+
+/* Оболочка: на десктопе Telegram контент ограничен 480px и стоит по центру. */
+.app {
+  position: relative;
+  height: var(--app-h);
+  max-width: 480px;
+  margin: 0 auto;
+  overflow: hidden;
+  background: var(--bg);
+}
+.screen {
+  position: absolute;
+  inset: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  background: var(--bg);
+  color: var(--ink);
+  scrollbar-width: none;
+  /* Без «пружины» iOS: при оттягивании за край не открывается полоса другого цвета над шапкой и под содержимым. */
+  overscroll-behavior: none;
+}
+.screen::-webkit-scrollbar { width: 0; height: 0; }
+/* Запас для iOS до 16 (не понимают overscroll-behavior): при оттягивании над цветной шапкой тот же цвет. */
+.top-fill { position: relative; }
+.top-fill::before { content: ''; position: absolute; left: 0; right: 0; bottom: 100%; height: 100vh; background: inherit; pointer-events: none; }
+.screen-body {
+  padding: 16px var(--px) 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  min-width: 0;
+}
+
+.pressable { transition: transform 140ms var(--ease-out); }
+.pressable:active { transform: scale(.98); }
+.pressable-sm:active { transform: scale(.96); }
+.pressable-xs:active { transform: scale(.94); }
+
+/* ---------- кнопки (btn() в Buyer v15) ---------- */
+.btn {
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  width: 100%; flex: none; min-height: 50px; padding: 0 16px;
+  border: 0; border-radius: 14px;
+  background: var(--lb-white); color: var(--lb-ink);
+  font-size: 14.5px; font-weight: 600; letter-spacing: -0.005em; text-align: center;
+  cursor: pointer;
+  transition: transform 140ms var(--ease-out), background 160ms ease;
+}
+.btn:active { transform: scale(.98); }
+.btn--small { min-height: 40px; border-radius: 12px; font-size: 12.5px; }
+.btn--inline { width: auto; padding: 0 18px; }
+.btn--grow { flex: 1 1 auto; }
+.btn--primary { background: var(--lime); box-shadow: inset 0 0 0 1px var(--lb-ink-a10); }
+.btn--dark { background: var(--lb-ink-2); color: var(--lb-white); }
+.btn--ghost { box-shadow: inset 0 0 0 1px var(--lb-ink-a14); }
+.btn--danger, .btn--dangerSoft { background: var(--lb-danger-soft); color: var(--lb-danger); box-shadow: inset 0 0 0 1px var(--lb-danger-a25); }
+.btn--violet { background: var(--lb-violet-soft); color: var(--lb-violet); }
+.btn--limeSoft { background: var(--lb-lime-soft); box-shadow: inset 0 0 0 1px var(--lb-limedeep-a40); }
+.btn--warn { background: var(--lb-warn-soft); color: var(--lb-warn-ink); }
+.btn--info { background: var(--lb-info-soft); color: var(--lb-info); }
+.btn--off { background: var(--lb-n-100); color: var(--lb-mute); cursor: default; box-shadow: none; }
+.btn--off:active { transform: none; }
+
+/* ---------- блоки ---------- */
+.h-block { display: flex; flex-direction: column; gap: 4px; padding-top: 4px; }
+.h-block__title { font-size: 17px; font-weight: 600; letter-spacing: -0.025em; line-height: 1.25; }
+.h-block__sub, .p-block { font-size: 12.5px; line-height: 1.45; color: var(--lb-ink-2); text-wrap: pretty; }
+
+.skel-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 14px var(--col-gap);
+  animation: lbPulse 1.4s ease-in-out infinite;
+}
+.skel-grid__img { width: 100%; aspect-ratio: 4 / 5; border-radius: var(--card-r); background: var(--lb-n-150); }
+.skel-grid__l1 { margin-top: 8px; width: 56%; height: 12px; border-radius: 6px; background: var(--lb-n-150); }
+.skel-grid__l2 { margin-top: 8px; width: 84%; height: 10px; border-radius: 6px; background: var(--lb-n-100); }
+
+/* ---------- режим администратора ---------- */
+.press-row { transition: background 120ms ease; }
+.press-row:active { background: var(--lb-n-100) !important; }
+.adm-num { transition: box-shadow 160ms ease; }
+.adm-num:focus-within { box-shadow: inset 0 0 0 2px var(--lb-ink-2), 0 0 0 4px var(--lb-lime-a35) !important; }
+/* Поля в листе — на светло-сером, как в макете. */
+[role=dialog] .adm-field { background: var(--lb-n-50) !important; }
